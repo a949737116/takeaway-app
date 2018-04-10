@@ -37,7 +37,8 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       // 设置模板静态目录
-      'vue-components':resolve('src/components')
+      'vue-components':resolve('src/components'),
+      '@common' : resolve('src/common')
     }
   },
   module: {

@@ -6,13 +6,13 @@
             <el-tab-pane label="商家">角色管理</el-tab-pane>
         </el-tabs> -->
         <div class="tab-item">
-            <router-link >商品</router-link>
+            <router-link to="/food">商品</router-link>
         </div>
         <div class="tab-item">
-            <router-link >店家</router-link>
+            <router-link to='/seller'>店家</router-link>
         </div>
         <div class="tab-item">
-           <router-link >评价</router-link>
+           <router-link to='/ratings'>评价</router-link>
         </div>
     </div>
 </template>
@@ -22,16 +22,20 @@ export default {};
 </script>
 
 <style scoped rel="stylesheet/stylus" lang="stylus">
-    .tab
-        display:flex
-        width:100%
-        height :40px
-        line-height :40px
-        .tab-item
-            flex:auto
-            text-align : center
-            & > a 
-                display : block 
-                width: 100%
-                text-decoration: none
+@import "../../common/stylus/index.styl"
+.tab
+    display:flex
+    width:100%
+    height :40px
+    line-height :40px
+    margin-bottom :20px
+    border1px(#909399)
+    .tab-item
+        flex:auto
+        text-align : center
+        & > a 
+            display : block 
+            width: 100%
+        & .tab-active
+                color:red
 </style>

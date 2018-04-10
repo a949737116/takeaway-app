@@ -1,0 +1,23 @@
+border1px($color)
+  position:relative
+  &:after
+    position:absolute
+    display: block
+    width: 100%
+    left: 0
+    bottom: 0
+    border-bottom: 1px $color solid
+    content: ''
+
+@media(min-device-pixel-ratio:1.5),(-webkit-min-device-pixel-ratio:1.5)
+  .tab
+    &:after
+      transform: scaleY(0.7)
+      -webkit-transform: scaleY(0.7)
+@media(min-device-pixel-ratio:2),(-webkit-min-device-pixel-ratio:2)
+  .tab
+    &:after
+      transform: scaleY(0.5)
+      -webkit-transform: scaleY(0.5)
+
+

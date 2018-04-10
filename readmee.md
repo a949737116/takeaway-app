@@ -51,3 +51,4 @@
  css标签   rel="stylesheet/stylus" lang="stylus"
 9.用vue官方的vue-cli脚手架自动生成项目后，在启动项目后，会自动打开 ‘http://localhost:8080/#/’ 地址，而且一直没法去掉“#”号。直到后来重新详细看vue-router官方文档，才发现，这是由路由的默认配置模式引起的。
 解决方法是将路由配置成history模式.
+10.import规则一定要先于除了@charset的其他任何CSS规则
