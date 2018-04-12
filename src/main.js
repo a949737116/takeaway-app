@@ -3,15 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VResource from 'vue-resource'
 //elementUI的引入
 import elementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(elementUi);
+Vue.use(VResource);
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+var vm = new Vue({
   el: '#app',
   router,
   components: { App },

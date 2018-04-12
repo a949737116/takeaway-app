@@ -1,0 +1,9 @@
+.shoppingInformation
+  font-size: 10px
+  color: rgb(255,255,255)
+  font-weight: 200
+ImgSrc($ImgUrl)
+  background-image: url($ImgUrl + '@2x.png')
+  background-repeat: no-repeat
+  @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio:3)
+    background-image: url($ImgUrl + '@3x.png')
