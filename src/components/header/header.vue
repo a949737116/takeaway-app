@@ -9,19 +9,28 @@
                 </div>
             </el-col>
             <el-col :span="18">
-                <div class="grid-content">
-
+                <div class="rightSeller">
+                    <!-- 标题 -->
+                    <div class="SellerTitle">
+                        <span></span>
+                        <span>{{dataSeller.name}}</span>
+                    </div> 
+                    <!-- 配送 -->
+                    <p><span>{{dataSeller.description}}</span>/{{dataSeller.deliveryTime}}分钟送达</p>
+                    <!-- 满减 -->
+                    <div>
+                        <span></span>
+                        <span>{{dataSeller.supports[0].description}}</span>
+                    </div>
                 </div>
-            </el-col>
+            </el-col>   
         </el-row>       
         <!-- 公告栏 -->
         <div class="noticeBar">
             <div class="noticeContent">
-                <span class="noticeIcon"></span>
-                <div class="noticRight">
-                    <p class="noticeWords">{{dataSeller.bulletin}}</p>
+                    <span class="noticeIcon"></span>
+                    <span class="noticeWords">{{dataSeller.bulletin}}</span>
                     <i class="icon-keyboard_arrow_right iconRight"></i>
-                </div>
             </div>
         </div>
     </div>
@@ -33,6 +42,15 @@ export default {
     dataSeller: {
       type: Object
     }
+  },
+  data:function(){
+      return {
+          classMap:[
+              'decrease',
+              'discount_1',
+              
+          ]
+      }
   }
 };
 </script>
@@ -45,29 +63,44 @@ export default {
           border-radius : 4px
     .noticeBar
         .noticeContent
+            position relative
             vertical-align top
+            overflow  hidden 
+            white-space nowrap
+            text-overflow ellipsis
+            padding 0 22px 0 12px
+            height 28px
+            line-height 28px
             .noticeIcon
+                margin-top: 7px
+                vertical-align top
                 display inline-block
                 margin-right 4px
-                margin-left 12px
                 width 22px
                 height 12px
-                ImgSrc(bulletin)
+                ImgSrc(bulletin)    
                 background-size 22px 12px
-                margin-bottom 8.5px
-            .noticRight
-                position relative
+            .noticeWords
+                vertical-align top
+                font-size 10px
+            .iconRight
+                position absolute 
+                top 9px
+                right 12px
+                font-size 10px
+
+    .rightSeller
+        padding 24px 12px 18px 24px
+        .SellerTitle
+            &>span:first-child
                 display inline-block
-                width 80%
-                .noticeWords
-                    padding-right 10px
-                    overflow  hidden 
-                    white-space nowrap
-                    text-overflow ellipsis
-                    height 28px
-                    line-height 28px
-                .iconRight
-                    position absolute 
-                    top 0
-                    right 0
+                ImgSrc(brand)
+                background-size 30px 18px
+                width 30px
+                height 18px
+            &>span:nth-child(2)
+                font-size 16px
+                font-weight bold
+                line-height 18px
+                height 18px
 </style>
