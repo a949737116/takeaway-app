@@ -1,7 +1,7 @@
 <template>
-    <div class="shoppingInformation" style="background-color:#909399">
+    <div class="shoppingInformation" style="position:relative">
         <!-- 店铺信息栏 -->
-        <el-row class="shoppingContent">
+        <el-row class="shoppingContent" style='z-index:1'>
             <el-col :span="6">
                 <div class="leftImg">
                     <!-- 左侧店铺图片 -->                   
@@ -16,22 +16,30 @@
                         <span>{{dataSeller.name}}</span>
                     </div> 
                     <!-- 配送 -->
-                    <p><span>{{dataSeller.description}}</span>/{{dataSeller.deliveryTime}}分钟送达</p>
+                    <p class='transport'><span>{{dataSeller.description}}</span>/{{dataSeller.deliveryTime}}分钟送达</p>
                     <!-- 满减 -->
-                    <div>
-                        <span></span>
+                    <div class='supports'>
+                        <span :class='classMap[dataSeller.supports[0].type]' class='iconFix'></span>
                         <span>{{dataSeller.supports[0].description}}</span>
+                        <span class='showMoreSupports'>
+                            <span>{{dataSeller.supports.length}}个 </span>
+                            <i class="icon-keyboard_arrow_right iconRight"></i> 
+                        </span>
                     </div>
                 </div>
             </el-col>   
         </el-row>       
         <!-- 公告栏 -->
-        <div class="noticeBar">
+        <div class="noticeBar" style='z-index:1'>
             <div class="noticeContent">
                     <span class="noticeIcon"></span>
                     <span class="noticeWords">{{dataSeller.bulletin}}</span>
                     <i class="icon-keyboard_arrow_right iconRight"></i>
             </div>
+        </div>
+        <!-- 滤镜背景层 -->
+        <div class='background'>
+            <img :src="dataSeller.avatar"  width=100% height=100%>
         </div>
     </div>
 </template>
@@ -47,8 +55,10 @@ export default {
       return {
           classMap:[
               'decrease',
-              'discount_1',
-              
+              'discount',
+              'discount',
+              'special',
+              'special'
           ]
       }
   }
@@ -57,11 +67,42 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
     @import '../../common/stylus/header.styl'
     @import '../../common/stylus/icon.styl'
+    .iconFix
+        margin-right 4px
+        width 18px
+        height 18px
+        background-size 18px 18px
+        display inline-block
+        margin-bottom -4px;
+    .rightSeller
+        .transport
+            margin-top 8px
+            margin-bottom 10px
+            line-height 12px
+            height 12px
+        .supports
+            vertical-align top
+            .showMoreSupports
+                float right
+                position relative
+                vertical-align top
+                line-height 24px
+                height 24px
+                background-color rgba(0,0,0,0.2)
+                border-radius 12px
+                padding 0 20px 0 8px   
+                &>i 
+                   position absolute 
+                   top 5.5px
+                   right 8px
+            &>span
+                display inline-block
     .leftImg
         &>img 
           padding:24px 0px 18px 24px
           border-radius : 4px
     .noticeBar
+        background-color rgba(7,17,27,0.2)
         .noticeContent
             position relative
             vertical-align top
@@ -103,4 +144,20 @@ export default {
                 font-weight bold
                 line-height 18px
                 height 18px
+    .decrease
+        ImgSrc(decrease_1)
+    .discount
+        ImgSrc(discount_1)
+    .special
+        ImgSrc(special_1)
+    .shoppingInformation
+        background-color rgba(7,17,27,0.5)
+    .background
+        position absolute
+        top 0
+        left 0
+        width 100%
+        height 100%
+        z-index -1
+        filter blur(10px)
 </style>
