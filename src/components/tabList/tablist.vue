@@ -28,7 +28,6 @@ export default {};
     width:100%
     height :40px
     line-height :40px
-    margin-bottom :20px
     border1px(#909399)
     .tab-item
         flex:auto

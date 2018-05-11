@@ -17,6 +17,7 @@ var mockData = require('../data.json');
 var seller = mockData.seller;
 var goods = mockData.goods;
 var ratings = mockData.ratings;
+var aInfo = mockData;
 
 var appRouter = express.Router();
 app.use('/api',appRouter);
@@ -64,6 +65,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       app.get('/api/ratings',function(req,res){
         res.json(ratings);
       });
+      app.get('/api/all',function(req,res){
+        res.json(aInfo);
+      })
     }
   },
   plugins: [

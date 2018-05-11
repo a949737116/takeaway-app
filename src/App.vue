@@ -2,6 +2,7 @@
   <div id="app">
     <vheader :dataSeller="seller"></vheader>
     <v-tab/>
+    <v-content :food="ainfo.goods"></v-content> 
     <router-view/>
     <vfooter></vfooter>
   </div>
@@ -11,17 +12,20 @@
 import vheader from 'vue-components/header/header'
 import tabList from 'vue-components/tabList/tabList'
 import vfooter from 'vue-components/footer/footer'
+import content from 'vue-components/content/content'
 export default {
   name: 'App',
   data:function(){
     return {
-      seller:{}
+      seller:{},
+      ainfo:{}
     }
   },
   components:{
     vheader,
     'v-tab' : tabList,
-    vfooter
+    vfooter,
+    'v-content': content
   },
   created:function(){
     this.$http.get('./api/seller').then(response => {
@@ -32,12 +36,21 @@ export default {
     },response => {
       console.log(response);
     }
-    )
+    );
+    this.$http.get('./api/all').then(response => {
+      if (response.data){
+        this.ainfo = response.data;
+        console.log(this.ainfo)
+      }
+    },response => {
+      console.log('error');
+    })
   }
 }
 </script>
 
 <style rel="stylesheet/stylus" lang="stylus">
+@import 'common/stylus/base.styl'
 #app 
   font-family: 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
