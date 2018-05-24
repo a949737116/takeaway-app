@@ -12,15 +12,15 @@
         <!-- 具体食物 -->
         <div class='foods' v-for='(item1,index1) in item.foods' :key='index1'>
           <!-- 图 -->
-          <div>
-            <img src="item1.image">
+          <div class='imgBox'>
+            <img :src="item1.image" class='foodImg'>
           </div>
           <!-- 详情 -->
-          <div>
-            <p>{{item1.name}}</p>
-            <p>{{item1.description}}</p>
-            <p>月售{{item1.sellCount}}份 好评率{{item1.rating}}</p>
-            <p><span></span><span></span></p>
+          <div class='foodInfo'>
+            <p class='title'>{{item1.name}}</p>
+            <p class='desc' v-show='item1.description'>{{item1.description}}</p>
+            <p class='sCount'>月售{{item1.sellCount}}份 好评率{{item1.rating}}</p>
+            <p class='price'><span>￥{{item1.price}}</span><span v-if='item1.oldPrice || item1.oldPrice === 0'>￥{{item1.oldPrice}}</span></p>
           </div>
         </div>
       </div>
@@ -48,7 +48,6 @@
     left 0
     right 0
     bottom 46px
-    background-color red
     flex-direction row
     .menuList
       display flex
@@ -84,5 +83,44 @@
       display -webkit-flex
       flex-direction column
       flex 1
+      .foodLan
+        & > p
+          background-color #f3f5f7
+          font-size 12px
+          color rgb(147,153,159)
+          line-height 26px
+          height 26px
+          text-indent 14px
+          border-left 1px solid #d9dde1
+        .foods
+          padding 18px
+          display flex
+          .imgBox
+            flex 0 0 57px
+            padding-right 10px
+            .foodImg
+              width 57px
+              height 57px
+          .foodInfo
+            p
+              margin-bottom 8px
+              font-size 10px
+              color rgb(147,153,159)
+              line-height 10px
+              height 10px
+            .title
+              font-size 14px
+              color rgb(7,17,27)
+              line-height 14px
+            .price
+              span 
+                text-decoration line-through
+              span:first-child
+                font-size 14px
+                color red
+                font-weight 700
+                line-height 24px
+                padding-right 8px
+                text-decoration none
 </style>
 
