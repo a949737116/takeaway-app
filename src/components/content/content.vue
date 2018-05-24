@@ -1,12 +1,15 @@
 <template>
   <div class='content'>
-    <div class='menuList'>
-      <div class='menuLan' v-for='(item,index) in food' :key='index'>
+    <div class='menuList' ref='menuContent'>
+      <div>
+        <div class='menuLan' v-for='(item,index) in food' :key='index'>
         <span><i v-if='item.type === 2' class='icon'></i>{{item.name}}</span>
       </div>
     </div>
-    <div class='foodList'>
-      <div class='foodLan'  v-for='(item,index) in food' :key='index'>
+    </div>
+    <div class='foodList' ref='foodContent'>
+      <div >
+        <div class='foodLan'  v-for='(item,index) in food' :key='index'>
         <!-- 标题栏 -->
         <p>{{item.name}}</p>
         <!-- 具体食物 -->
@@ -24,15 +27,25 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
+  import Bscroll from 'better-scroll'
   export default{
     props:{
       food:{
         type: Array
       }
+    },
+    mounted() {
+      this.$nextTick(
+        () => {
+          this.scroll = new Bscroll(this.$refs.foodContent,{})
+          this.scroll = new Bscroll(this.$refs.menuContent,{})
+        }
+      )
     }
   }
 </script>
@@ -83,6 +96,7 @@
       display -webkit-flex
       flex-direction column
       flex 1
+      overflow hidden
       .foodLan
         & > p
           background-color #f3f5f7
