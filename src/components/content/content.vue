@@ -2,9 +2,9 @@
   <div class='content'>
     <div class='menuList' ref='menuContent'>
       <div>
-        <div class='menuLan' v-for='(item,index) in food' :key='index'>
-        <span><i v-if='item.type === 2' class='icon'></i>{{item.name}}</span>
-      </div>
+        <div class='menuLan' v-for='(item,index) in food' :key='index' :class='index === focusIndex ? "hightlight" : "normal"'>
+           <span><i v-if='item.type === 2' class='icon'></i>{{item.name}}</span>
+        </div>
     </div>
     </div>
     <div class='foodList' ref='foodContent'>
@@ -39,19 +39,79 @@
         type: Array
       }
     },
-    mounted() {
-      this.$nextTick(
-        () => {
-          this.scroll = new Bscroll(this.$refs.foodContent,{})
-          this.scroll = new Bscroll(this.$refs.menuContent,{})
-        }
-      )
+    methods:{
+
+    },
+    data(){
+      return {
+        heightList:[],
+        scrollY:0,
+        focusIndex:0
+      }
+    },
+    created(){
+      this.contactScroller();
+
+    },
+    methods:{
+      contactScroller(){
+        this.$nextTick( () => {
+           var me = this;
+           if (!this.scroll) {
+             this.scroll = new Bscroll(this.$refs.foodContent,{probeType:2})
+             this.scroll1 = new Bscroll(this.$refs.menuContent,{});
+           }else{
+             this.scroll.refresh();
+           }
+           let totalLength = 0;
+           var boxlist = this.$refs.foodContent.getElementsByClassName('foodLan');
+           var foodPositionList = [];
+           for (var i = 0;i<boxlist.length;i++){
+              totalLength += boxlist[i].clientHeight; 
+              foodPositionList[i] = totalLength;
+           }
+           foodPositionList[foodPositionList.length-1] -= this.$refs.foodContent.clientHeight;
+           this.heightList = foodPositionList;
+           this.scroll.on('scroll', (obj) => {
+               console.log(me.heightList);
+               console.log(Math.round(Math.abs(obj.y)));
+               this.scrollY = Math.round(Math.abs(obj.y));
+               if (this.scrollY > 0) {
+                  var length = me.heightList.length;
+                  console.log('用来比较的' + this.scrollY);
+                  if (me.scrollY < me.heightList[0]){
+                      // 首标签
+                      me.focusIndex = 0;
+                      console.log('top');
+                    }else if (me.scrollY > me.heightList[length - 2]){
+                      // 尾标签
+                      me.focusIndex = length -1;
+                      console.log('end');
+                    }else{
+                       for (var i = 0; i<=me.heightList.length-1; i++){
+                        if( me.scrollY > me.heightList[i] && me.scrollY < me.heightList[i+1] ){
+                          me.focusIndex = i + 1;
+                          break;  
+                       }
+                  }
+                    }
+               }
+               console.log('focusIndex现在是' + this.focusIndex);
+             })
+        });
+      }
     }
   }
 </script>
 <style rel='stylesheet/stylus' lang='stylus'>
   @import '../../common/stylus/border1px';
   @import '../../common/stylus/header';
+  /* 公用css类 */
+  .hightlight
+    background-color white
+    >span 
+      font-weight 400!important
+  /* 样式类 */
   .content
     display flex
     display -webkit-flex
