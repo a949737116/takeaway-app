@@ -1,8 +1,8 @@
 <template>
   <div class='content'>
     <div class='menuList' ref='menuContent'>
-      <div>
-        <div class='menuLan' v-for='(item,index) in food' :key='index' :class='index === focusIndex ? "hightlight" : "normal"'>
+      <div class='menuBox'>
+        <div class='menuLan' v-for='(item,index) in food' :key='index' :class='index === focusIndex ? "hightlight" : "normal"' @click='chooseIndex(index)'>
            <span><i v-if='item.type === 2' class='icon'></i>{{item.name}}</span>
         </div>
     </div>
@@ -39,9 +39,6 @@
         type: Array
       }
     },
-    methods:{
-
-    },
     data(){
       return {
         heightList:[],
@@ -49,13 +46,16 @@
         focusIndex:0
       }
     },
-    created(){
-      this.contactScroller();
-
+    //监听一次
+    watch: {
+      food:{
+        handler: 'contactScroller'
+      }
     },
     methods:{
       contactScroller(){
         this.$nextTick( () => {
+          console.log(this.food);
            var me = this;
            if (!this.scroll) {
              this.scroll = new Bscroll(this.$refs.foodContent,{probeType:2})
@@ -72,6 +72,10 @@
            }
            foodPositionList[foodPositionList.length-1] -= this.$refs.foodContent.clientHeight;
            this.heightList = foodPositionList;
+           var ifMenu = false;
+           if (this.$refs.menuContent.clientHeight < this.$refs.menuContent.getElementsByClassName('menuBox')[0].clientHeight){
+             ifMenu = true;
+           }
            this.scroll.on('scroll', (obj) => {
                console.log(me.heightList);
                console.log(Math.round(Math.abs(obj.y)));
@@ -97,8 +101,22 @@
                     }
                }
                console.log('focusIndex现在是' + this.focusIndex);
+               if (ifMenu){
+                 me.menuAutoScroll(foodPositionList[foodPositionList.length-1]);
+               }
              })
         });
+      },
+      menuAutoScroll(TfY){
+        //可供滑动的长度
+        var TmY = this.$refs.menuContent.clientHeight - this.$refs.menuContent.getElementsByClassName('menuBox')[0].clientHeight;
+        //参照
+        var percent = this.scrollY / TfY;
+        var relSY = TmY * percent;
+        this.scroll1.scrollTo(0,relSY,200);
+      },
+      chooseIndex(i){
+        console.log(i);
       }
     }
   }
@@ -110,7 +128,8 @@
   .hightlight
     background-color white
     >span 
-      font-weight 400!important
+      font-weight 500!important
+      color red;
   /* 样式类 */
   .content
     display flex
@@ -129,6 +148,7 @@
       width 80px
       flex 0 0 80px
       background #f3f5f7
+      overflow hidden
       .menuLan
         width 56px
         height 54px
