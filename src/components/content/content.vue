@@ -56,6 +56,10 @@
     watch: {
       food:{
         handler: 'contactScroller'
+      },
+      buyGoods:{
+        handler: 'buyGoodsChange',
+        deep:true
       }
     },
     methods:{
@@ -147,6 +151,15 @@
         if (!iFexist){
           me.buyGoods.push(data);
         }
+      },
+      buyGoodsChange(){
+        var money = 0 ;
+        this.buyGoods.forEach(
+          (item,index) => {
+            money += item.totalMoney
+          }
+        );
+        this.$store.commit('alterMoney',money);
       }
     },
     components:{

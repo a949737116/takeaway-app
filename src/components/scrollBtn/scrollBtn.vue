@@ -28,12 +28,14 @@
       addFood(){
         if (this.serverFood.count < this.serverFood.totalCount){
           this.serverFood.count += 1;
+          this.serverFood.totalMoney = this.serverFood.count * this.serverFood.price;
           this.emitFater();
         };
       },
       reduceFood(){
         if (this.serverFood.count > 0){
           this.serverFood.count -= 1;
+          this.serverFood.totalMoney = this.serverFood.count * this.serverFood.price;
           this.emitFater();
         }
       },
@@ -47,7 +49,8 @@
           count:0,
           totalCount:this.info.sellCount,
           price:this.info.price,
-          name:this.info.name
+          name:this.info.name,
+          totalMoney:0
         }
       }
     }
