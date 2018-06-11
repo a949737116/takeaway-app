@@ -23,7 +23,11 @@
             <p class='title'>{{item1.name}}</p>
             <p class='desc' v-show='item1.description'>{{item1.description}}</p>
             <p class='sCount'>月售{{item1.sellCount}}份 好评率{{item1.rating}}</p>
-            <p class='price'><span>￥{{item1.price}}</span><span v-if='item1.oldPrice || item1.oldPrice === 0'>￥{{item1.oldPrice}}</span></p>
+            <p class='price'>
+              <span>￥{{item1.price}}</span>
+              <span v-if='item1.oldPrice || item1.oldPrice === 0'>￥{{item1.oldPrice}}</span>
+              <scrollBtn class='numBall' v-bind:info='item1' @foodChange='receptAction'></scrollBtn>
+            </p>
           </div>
         </div>
       </div>
@@ -33,6 +37,7 @@
 </template>
 <script>
   import Bscroll from 'better-scroll'
+  import scrollBtn from 'vue-components/scrollBtn/scrollBtn'
   export default{
     props:{
       food:{
@@ -43,7 +48,8 @@
       return {
         heightList:[],
         scrollY:0,
-        focusIndex:0
+        focusIndex:0,
+        buyGoods:[]
       }
     },
     //监听一次
@@ -58,8 +64,8 @@
           console.log(this.food);
            var me = this;
            if (!this.scroll) {
-             this.scroll = new Bscroll(this.$refs.foodContent,{probeType:2})
-             this.scroll1 = new Bscroll(this.$refs.menuContent,{});
+             this.scroll = new Bscroll(this.$refs.foodContent,{probeType:2,click:true,tap:true})
+             this.scroll1 = new Bscroll(this.$refs.menuContent,{click:true,tap:true});
            }else{
              this.scroll.refresh();
            }
@@ -117,7 +123,34 @@
       },
       chooseIndex(i){
         console.log(i);
+        var boxlist = this.$refs.foodContent.getElementsByClassName('foodLan');
+        var aimDiv = boxlist[i];
+        this.scroll.scrollToElement(aimDiv,200,0,0);
+        this.focusIndex = i;
+      },
+      receptAction(data){
+        console.log(data);
+        var me = this;
+        var iFexist = false;
+        me.buyGoods.forEach(
+          (item,index) => {
+            if (item.name === data.name){
+              iFexist = true;
+              if (data.count === 0){
+                me.buyGoods.splice(index,1);
+              }else{
+                item.count = data.count;
+              }
+            }
+          }
+        )
+        if (!iFexist){
+          me.buyGoods.push(data);
+        }
       }
+    },
+    components:{
+      scrollBtn
     }
   }
 </script>
@@ -189,6 +222,7 @@
         .foods
           padding 18px
           display flex
+          position relative
           .imgBox
             flex 0 0 57px
             padding-right 10px
@@ -196,6 +230,7 @@
               width 57px
               height 57px
           .foodInfo
+            width 100%
             p
               margin-bottom 8px
               font-size 10px
@@ -207,9 +242,13 @@
               color rgb(7,17,27)
               line-height 14px
             .price
-              span 
+              width 100%
+              .numBall
+                display inline-block
+                float right 
+              &>span 
                 text-decoration line-through
-              span:first-child
+              &>span:first-child
                 font-size 14px
                 color red
                 font-weight 700

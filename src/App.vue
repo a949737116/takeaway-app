@@ -4,7 +4,7 @@
     <v-tab/>
     <v-content :food="ainfo.goods"></v-content> 
     <router-view/>
-    <vfooter></vfooter>
+    <vfooter :minPrice="seller.minPrice"></vfooter>
   </div>
 </template>
 
