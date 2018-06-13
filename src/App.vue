@@ -4,7 +4,8 @@
     <v-tab/>
     <v-content :food="ainfo.goods"></v-content> 
     <router-view/>
-    <vfooter :minPrice="seller.minPrice"></vfooter>
+    <vfooter :minPrice="seller.minPrice" :deliveryPrice='seller.deliveryPrice'></vfooter>
+    <overlay class='hidden' id='overlay'></overlay>
   </div>
 </template>
 
@@ -13,6 +14,7 @@ import vheader from 'vue-components/header/header'
 import tabList from 'vue-components/tabList/tabList'
 import vfooter from 'vue-components/footer/footer'
 import content from 'vue-components/content/content'
+import overlay from 'vue-components/overlay/overlay'
 export default {
   name: 'App',
   data:function(){
@@ -25,6 +27,7 @@ export default {
     vheader,
     'v-tab' : tabList,
     vfooter,
+    overlay,
     'v-content': content
   },
   created:function(){
@@ -58,4 +61,6 @@ export default {
   // text-align: center
   //color: #2c3e50
   // margin-top: 60px
+.hidden
+  display none
 </style>

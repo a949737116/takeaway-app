@@ -160,6 +160,7 @@
           }
         );
         this.$store.commit('alterMoney',money);
+        this.$store.commit('changeGoods',this.buyGoods);
       }
     },
     components:{
