@@ -12,6 +12,7 @@ Vue.use(elementUi);
 Vue.use(VResource);
 
 Vue.config.productionTip = false
+Vue.prototype.bus = new Vue();
 
 console.log(store)
 /* eslint-disable no-new */

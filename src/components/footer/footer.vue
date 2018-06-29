@@ -25,8 +25,11 @@
         <div class='right' v-if='!isBuy'>
             ￥{{leastPrice}}起送
         </div>
-        <div class='right right1' v-else>
+        <div class='right right1' v-else-if='leastPrice>0'>
             还差￥{{leastPrice}} 起送
+        </div>
+        <div class='right right2' v-else>
+            去结算
         </div>
     </div>
 </template>
@@ -175,5 +178,8 @@
             box-sizing: border-box;
             padding: 0 8px;
             text-align: center;
+        .right2
+            color #fff
+            background-color green
 </style>
 

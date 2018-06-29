@@ -8,14 +8,19 @@
           清空
         </span>
     </div>
-    <div class='sContent'>
-      <div class='oneGood'>
+    <div class='sContent' v-if='goodList.length>0'>
+      <div class='oneGood' v-for='(item,index) in goodList' :key='index' >
         <span>
-          商品名称
+          {{item.name}}
         </span>
-        <span>
-          ￥10
+        <span  class='changeBall'>
+          <scrollBtn :info='item' ></scrollBtn>
         </span>
+        <span class='Tmoney'>
+          ￥{{item.totalMoney}}
+        </span>
+        <div class='clearFix'>
+        </div>
       </div>
     </div>
   </div>
@@ -26,11 +31,18 @@
     name:'shoppingCart',
     components:{
       scrollBtn
+    },
+    computed:{
+      goodList(){
+        return this.$store.state.buyGoods
+      }
     }
   }
 </script>
 <style lang='stylus' rel='stylesheet/stylus'>
     @import '../../common/stylus/border1px.styl';
+    .clearfix
+      clear both
     .shoppingCart
       z-index 998
       background-color rgb(255,255,255) 
@@ -67,12 +79,16 @@
               &:first-child
                 color rgb(7,17,27)
                 font-size 14px
-              &:nth-child(2)
-                font-size 14px
-                font-weight 700
-                color rgb(240,20,20)
-                padding-right 12px  
-                float right 
+            .Tmoney
+              font-size 14px
+              font-weight 700
+              color rgb(240,20,20)
+              padding-right 12px  
+              float right 
+            .changeBall
+              float right
+              span
+                font-size 16px !important
             &:last-child
                 margin-bottom 35px
 </style>

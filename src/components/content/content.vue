@@ -26,7 +26,7 @@
             <p class='price'>
               <span>￥{{item1.price}}</span>
               <span v-if='item1.oldPrice || item1.oldPrice === 0'>￥{{item1.oldPrice}}</span>
-              <scrollBtn class='numBall' v-bind:info='item1' @foodChange='receptAction'></scrollBtn>
+              <scrollBtn class='numBall' v-bind:info='item1'  ></scrollBtn>
             </p>
           </div>
         </div>
@@ -65,7 +65,6 @@
     methods:{
       contactScroller(){
         this.$nextTick( () => {
-          console.log(this.food);
            var me = this;
            if (!this.scroll) {
              this.scroll = new Bscroll(this.$refs.foodContent,{probeType:2,click:true,tap:true})
@@ -87,8 +86,6 @@
              ifMenu = true;
            }
            this.scroll.on('scroll', (obj) => {
-               console.log(me.heightList);
-               console.log(Math.round(Math.abs(obj.y)));
                this.scrollY = Math.round(Math.abs(obj.y));
                if (this.scrollY > 0) {
                   var length = me.heightList.length;
@@ -126,14 +123,14 @@
         this.scroll1.scrollTo(0,relSY,200);
       },
       chooseIndex(i){
-        console.log(i);
         var boxlist = this.$refs.foodContent.getElementsByClassName('foodLan');
         var aimDiv = boxlist[i];
         this.scroll.scrollToElement(aimDiv,200,0,0);
         this.focusIndex = i;
       },
       receptAction(data){
-        console.log(data);
+        let obj = Object.assign({},data,{ifBar:true});
+        // data.ifBar = true;
         var me = this;
         var iFexist = false;
         me.buyGoods.forEach(
@@ -149,14 +146,14 @@
           }
         )
         if (!iFexist){
-          me.buyGoods.push(data);
+          me.buyGoods.push(obj);
         }
       },
       buyGoodsChange(){
         var money = 0 ;
         this.buyGoods.forEach(
           (item,index) => {
-            money += item.totalMoney
+            money += item.totalMoney;
           }
         );
         this.$store.commit('alterMoney',money);
@@ -165,6 +162,10 @@
     },
     components:{
       scrollBtn
+    },
+    mounted(){
+     this.bus.$on('foodChange',this.receptAction
+      );
     }
   }
 </script>
