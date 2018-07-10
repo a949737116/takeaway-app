@@ -85,6 +85,9 @@
                 }
                 return goodInfo
             }
+        },
+        mounted(){
+            this.bus.$on('closeCart',this.openShopCart);
         }
     }
 </script>

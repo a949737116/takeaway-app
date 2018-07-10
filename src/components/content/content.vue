@@ -9,11 +9,11 @@
     </div>
     <div class='foodList' ref='foodContent'>
       <div >
-        <div class='foodLan'  v-for='(item,index) in food' :key='index'>
+        <div class='foodLan'  v-for='(item) in food' :key='item.name'>
         <!-- 标题栏 -->
         <p>{{item.name}}</p>
         <!-- 具体食物 -->
-        <div class='foods' v-for='(item1,index1) in item.foods' :key='index1'>
+        <div class='foods' v-for='(item1) in item.foods' :key='item1.name'>
           <!-- 图 -->
           <div class='imgBox'>
             <img :src="item1.image" class='foodImg'>
@@ -26,7 +26,7 @@
             <p class='price'>
               <span>￥{{item1.price}}</span>
               <span v-if='item1.oldPrice || item1.oldPrice === 0'>￥{{item1.oldPrice}}</span>
-              <scrollBtn class='numBall' v-bind:info='item1'  ></scrollBtn>
+              <scrollBtn class='numBall' v-bind:info='item1' :data-id='item1.name'  ></scrollBtn>
             </p>
           </div>
         </div>
@@ -129,19 +129,21 @@
         this.focusIndex = i;
       },
       receptAction(data){
+        console.log('触发了一次');
         let obj = Object.assign({},data,{ifBar:true});
         // data.ifBar = true;
         var me = this;
         var iFexist = false;
         me.buyGoods.forEach(
           (item,index) => {
-            if (item.name === data.name){
+            if (item.name === obj.name){
               iFexist = true;
-              if (data.count === 0){
+              if (obj.count === 0){
                 me.buyGoods.splice(index,1);
               }else{
-                item.count = data.count;
-              }
+                item.count = obj.count;
+                item.totalMoney = item.count * item.price;
+              } 
             }
           }
         )
@@ -158,14 +160,31 @@
         );
         this.$store.commit('alterMoney',money);
         this.$store.commit('changeGoods',this.buyGoods);
-      }
+      },
+      emitStore(data){
+        console.log(data);
+        this.$store.commit('toChangeGoods',data);
+        var goAhead = false;
+        const self =this;
+        this.food.forEach((list,index)=>{
+            list.foods.forEach((v,i) =>{
+              if (v.name === data.name){
+                  v.count = data.count;
+                  let item = Object.assign({},v,{count:data.count});
+                  // 增加属性必须告诉vue，通知vue渲染视图
+                  self.$set(self.food[index].foods,i,item)
+              }
+            }); 
+        })
+      }   
     },
     components:{
-      scrollBtn
+      scrollBtn 
     },
     mounted(){
      this.bus.$on('foodChange',this.receptAction
       );
+      this.bus.$on('countChange',this.emitStore);
     }
   }
 </script>

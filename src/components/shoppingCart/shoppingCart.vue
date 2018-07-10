@@ -4,29 +4,34 @@
         <span>
           购物车
         </span>
-        <span>
+        <span @click='clearAll'> 
           清空
         </span>
     </div>
-    <div class='sContent' v-if='goodList.length>0'>
-      <div class='oneGood' v-for='(item,index) in goodList' :key='index' >
-        <span>
-          {{item.name}}
-        </span>
-        <span  class='changeBall'>
-          <scrollBtn :info='item' ></scrollBtn>
-        </span>
-        <span class='Tmoney'>
-          ￥{{item.totalMoney}}
-        </span>
-        <div class='clearFix'>
+    <div class='sContent' v-if='goodList.length>0' ref='customization' 
+      :class='goodList.length>=5?"onlyHeight":""'
+    >
+      <div>
+        <div class='oneGood' v-for='(item) in goodList' :key='item.name' >
+            <span>
+              {{item.name}}
+            </span>
+            <span  class='changeBall' >
+              <scrollBtn :info='item' v-if='item' ></scrollBtn>
+            </span>
+            <span class='Tmoney'>
+              ￥{{item.totalMoney}}
+            </span>
+            <div class='clearFix'>
         </div>
       </div>
+      </div>     
     </div>
   </div>
 </template>
 <script>
   import scrollBtn from 'vue-components/scrollBtn/scrollBtn'
+  import Bscroll from 'better-scroll'
   export default{
     name:'shoppingCart',
     components:{
@@ -36,11 +41,37 @@
       goodList(){
         return this.$store.state.buyGoods
       }
+    },
+    methods:{
+      clearAll(){
+        this.$store.commit('changeGoods',[]);
+        this.$store.commit('alterMoney',0);
+      },
+      afreshShow(){
+        if (this.goodList.length === 0){
+          this.bus.$emit('closeCart');
+        }else{
+        var me = this;
+        this.$nextTick(()=>{
+          if (!me.scroll){
+            me.scroll = new Bscroll(me.$refs.customization,{click:true,tap:true});
+          }else{
+            me.scroll.refresh();
+          }
+        })}
+      }
+    },
+    watch: {
+      goodList: {
+        handler:'afreshShow'
+      }
     }
   }
 </script>
 <style lang='stylus' rel='stylesheet/stylus'>
     @import '../../common/stylus/border1px.styl';
+    .onlyHeight
+      height 270px!important
     .clearfix
       clear both
     .shoppingCart
@@ -68,6 +99,7 @@
             color rgb(0,160,220)
             float right
       .sContent
+          overflow hidden
           .oneGood
             height 24px
             padding 12px 18px

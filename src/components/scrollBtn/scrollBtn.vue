@@ -8,7 +8,7 @@
         </span>
     </transition>
     <span class='count'>
-      {{this.serverFood.count}}
+      {{serverFood.count}}
     </span>
     <span class="icon-add_circle" @click= 'addFood' >
     </span>
@@ -39,22 +39,32 @@
       },
       emitFater(){
         if (this.serverFood.ifBar){
-          console.log('来到了购物车BAR')
-          this.bus.$emit('countChange',this.serverFood.count,this.serverFood.name)
+          let data = {
+            name:this.serverFood.name,
+            count:this.serverFood.count
+           }
+          this.bus.$emit('countChange',data);
+
+          console.log('触发了a')
         }else{
           this.bus.$emit('foodChange',this.serverFood);
         }
-      }
+      },
+      
     },
     mounted(){  
-      this.bus.$on('countChange',()=>{
-        console.log(2222222)
-      })
+      
     },
     watch:{
       "info.count":function(n,o){
+        
         this.serverFood.count = n;
-      }
+      },
+      // "info":{
+      //   handler:function(n,o){
+      //   console.log(n,o); },
+      //   deep:true
+      // }
     },
     data(){
       return {
