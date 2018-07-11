@@ -44,7 +44,7 @@
         },
         methods:{
             openShopCart(){
-                if (!ifShow){
+                if (!ifShow && this.isBuy){
                     console.log(document.getElementById('overlay'));
                     document.getElementById('overlay').classList.remove('hidden');
                     ifShow = true;
