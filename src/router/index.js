@@ -4,6 +4,7 @@ import test from 'vue-components/test'
 import food from 'vue-components/food/food'
 import seller from 'vue-components/seller/seller'
 import ratings from 'vue-components/ratings/ratings'
+import content from 'vue-components/content/content'
 
 Vue.use(Router)
 
@@ -30,7 +31,7 @@ export default new Router({
     {
       path: '/food',
       name: 'food',
-      component: food
+      component: content
     }
   ]
 })

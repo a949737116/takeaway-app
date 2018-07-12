@@ -44,11 +44,18 @@
     },
     methods:{
       clearAll(){
+        var nameList = [];
+        this.goodList.forEach((v)=>{
+          nameList.push(v.name);
+        })
+        console.log(nameList);
+        this.bus.$emit('clearGoods',nameList);
         this.$store.commit('changeGoods',[]);
-        this.$store.commit('alterMoney',0);
+        this.$store.commit('alterMoney',0); 
       },
       afreshShow(){
         if (this.goodList.length === 0){
+          console.log('点击了关闭');
           this.bus.$emit('closeCart');
         }else{
         var me = this;

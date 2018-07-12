@@ -56,15 +56,13 @@
       
     },
     watch:{
-      "info.count":function(n,o){
-        
-        this.serverFood.count = n;
-      },
-      // "info":{
-      //   handler:function(n,o){
-      //   console.log(n,o); },
-      //   deep:true
-      // }
+      "info":{
+        handler:function(n,o){
+        console.log(n,o); 
+        this.serverFood.count = n.count || 0
+        },
+        deep:true
+      }
     },
     data(){
       return {

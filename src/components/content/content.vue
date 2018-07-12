@@ -38,18 +38,15 @@
 <script>
   import Bscroll from 'better-scroll'
   import scrollBtn from 'vue-components/scrollBtn/scrollBtn'
+
   export default{
-    props:{
-      food:{
-        type: Array
-      }
-    },
     data(){
       return {
         heightList:[],
         scrollY:0,
         focusIndex:0,
-        buyGoods:[]
+        buyGoods:[],
+        food:[]
       }
     },
     //监听一次
@@ -164,7 +161,6 @@
       emitStore(data){
         console.log(data);
         this.$store.commit('toChangeGoods',data);
-        var goAhead = false;
         const self =this;
         this.food.forEach((list,index)=>{
             list.foods.forEach((v,i) =>{
@@ -175,16 +171,44 @@
                   self.$set(self.food[index].foods,i,item)
               }
             }); 
-        })
+        });
+
+      },
+      clearGoods(data){
+         const self =this;
+         this.food.forEach((list,index)=>{
+            list.foods.forEach((v,i) =>{
+              data.forEach((name,ii)=>{
+                if (v.name === name){
+                  delete v.count; 
+                  let item = Object.assign({},v,{count:0});
+                  // 增加属性必须告诉vue，通知vue渲染视图
+                  self.$set(self.food[index].foods,i,item)
+                  return;
+               }
+              })     
+            }); 
+        });
+          this.buyGoods = []; 
+
       }   
     },
     components:{
       scrollBtn 
     },
+    created(){
+      this.$http.get('/api/goods').then(response => {
+        if (response.data){
+        this.food = response.data; }
+      }, response => {
+        console.log(response);
+      })
+    },
     mounted(){
      this.bus.$on('foodChange',this.receptAction
       );
       this.bus.$on('countChange',this.emitStore);
+      this.bus.$on('clearGoods',this.clearGoods)
     }
   }
 </script>

@@ -2,8 +2,9 @@
   <div id="app">
     <vheader :dataSeller="seller"></vheader>
     <v-tab/>
-    <v-content :food="ainfo.goods"></v-content> 
-    <router-view/>
+    <router-view>
+      <v-content :food="ainfo.goods"></v-content> 
+    </router-view>
     <vfooter :minPrice="seller.minPrice" :deliveryPrice='seller.deliveryPrice'></vfooter>
     <overlay class='hidden' id='overlay'></overlay>
   </div>
@@ -13,7 +14,6 @@
 import vheader from 'vue-components/header/header'
 import tabList from 'vue-components/tabList/tabList'
 import vfooter from 'vue-components/footer/footer'
-import content from 'vue-components/content/content'
 import overlay from 'vue-components/overlay/overlay'
 export default {
   name: 'App',
@@ -27,8 +27,7 @@ export default {
     vheader,
     'v-tab' : tabList,
     vfooter,
-    overlay,
-    'v-content': content
+    overlay
   },
   created:function(){
     this.$http.get('./api/seller').then(response => {
