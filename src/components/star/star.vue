@@ -18,7 +18,6 @@
     computed:{
       createScore(){
         const size = this.size;
-        console.log(this.score);
         const length = 5;
         let ifFloat = false;
         let scoreArray = [];
@@ -38,7 +37,6 @@
         for(var i = 0;i<=offLength-1;i++){
           scoreArray.push('starOff' + size);
         }
-        console.log(scoreArray)
         return scoreArray
       }
     }
@@ -68,21 +66,21 @@
       display inline-block
     & .starOn24
       ImgSrc(star24_on)
-      width 30px
-      height 30px
-      background-size 30px 30px
+      width 15px
+      height 15px
+      background-size 15px 15px
       display inline-block
     & .starHalf24
       ImgSrc(star24_half)
-      width 30px
-      height 30px
-      background-size 30px 30px
+      width 15px
+      height 15px
+      background-size 15px 15px
       display inline-block
     & .starOff24
       ImgSrc(star24_off)
-      width 30px
-      height 30px
-      background-size 30px 30px
+      width 15px
+      height 15px
+      background-size 15px 15px
       display inline-block
     & .starOn48
       ImgSrc(star48_on)

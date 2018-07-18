@@ -14,9 +14,11 @@ export default new Router({
   linkExactActiveClass : 'tab-active',
   routes: [
     {
-      path: '/test',
-      name: 'test',
-      component: test
+      path: '/',
+      redirect: '/food',
+      meta:{
+        keepAlive:true
+      }
     },
     {
       path: '/ratings',

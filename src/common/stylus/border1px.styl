@@ -8,6 +8,16 @@ border1px($color)
     bottom: 0
     border-bottom: 1px $color solid
     content: ''
+borderT1px($color)
+  position:relative
+  &:before
+    position:absolute
+    display: block
+    width: 100%
+    left: 0
+    top: 0 
+    border-top: 1px $color solid
+    content: ''
 borderL1px($color)
   position:relative
   &:after
