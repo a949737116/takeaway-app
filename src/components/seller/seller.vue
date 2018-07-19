@@ -110,7 +110,7 @@
                 this.$nextTick(()=>{
                     if (!me.roll){
                         me.roll = new bscroll(
-                            me.$refs.bbox
+                            me.$refs.bbox,{click:true,tap:true}
                         )
                     }else{
                         me.roll.refresh()
@@ -119,7 +119,7 @@
                         me.roll1 = new bscroll(
                             me.$refs.imgbox,{
                                 scrollY:false,
-                                scrollX:true
+                                scrollX:true,
                             }
                         )
                     }else{

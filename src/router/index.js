@@ -16,9 +16,6 @@ export default new Router({
     {
       path: '/',
       redirect: '/food',
-      meta:{
-        keepAlive:true
-      }
     },
     {
       path: '/ratings',
@@ -33,7 +30,7 @@ export default new Router({
     {
       path: '/food',
       name: 'food',
-      component: content
+      component: content,
     }
   ]
 })

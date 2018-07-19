@@ -2,9 +2,11 @@
   <div id="app">
     <vheader :dataSeller="seller"></vheader>
     <v-tab/>
-    <router-view>
-      <v-content :food="ainfo.goods"></v-content> 
-    </router-view>
+    <keep-alive>
+      <router-view>
+        <v-content :food="ainfo.goods"></v-content> 
+      </router-view>
+    </keep-alive>
     <vfooter :minPrice="seller.minPrice" :deliveryPrice='seller.deliveryPrice'></vfooter>
     <overlay class='hidden' id='overlay'></overlay>
   </div>
