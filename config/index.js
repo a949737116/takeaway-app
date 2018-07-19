@@ -55,8 +55,10 @@ module.exports = {
     /**
      * Source Maps
      */
-
-    productionSourceMap: true,
+    //自加端口
+    port:7777,
+    //是否生成sourcemap
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
