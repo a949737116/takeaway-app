@@ -28,6 +28,7 @@ router.get('/api/all',function(req,res){
   res.json(aInfo);
 });
 app.use(router);
+//开启服务
 module.exports = app.listen(port,function(error){
   if (error){
     console.log(error);
